@@ -1,3 +1,31 @@
+<?php
+require_once "connection.php";
+
+session_start();
+
+if(isset($_SESSION['user'])){
+	header("location: welcome.php");
+}
+
+if(isset($_REQUEST['register_btn'])){
+
+	echo "<pre>";
+		print_r($_REQUEST);
+	echo "</pre>";
+
+
+	$first_name = $_REQUEST['first_name'];
+	$middle_name = $_REQUEST['middle_name'];
+	$surname = $_REQUEST['surname'];
+	$dob = $_REQUEST['dob'];
+	$nino = $_REQUEST['nino'];
+	$email = $_REQUEST['email'];
+	$password = $_REQUEST['password'];
+}
+
+
+?>
+
 <html lang="en">
 
 <head>
@@ -8,17 +36,37 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
 	<title>Register</title>
 </head>
+
 <body>
 	<div class="container">
 		
 		<form action="register.php" method="post">
 			<div class="mb-3">
-				<label for="name" class="form-label">Name</label>
-				<input type="text" name="name" class="form-control" placeholder="Jane Doe">
+				<label for="first_name" class="form-label">First Name</label>
+				<input type="text" name="first_name" class="form-control" placeholder="Jane">
+			</div>
+			<div class="mb-3">
+				<label for="middle_name" class="form-label">Middle Name</label>
+				<input type="text" name="middle_name" class="form-control" placeholder="Mildred">
+			</div>
+			<div class="mb-3">
+				<label for="surname" class="form-label">Surname</label>
+				<input type="text" name="surname" class="form-control" placeholder="Doe">
+			</div>
+			<div class="mb-3">
+				<label for="dob" class="form-label">Date of Birth</label>
+				<input type="date" name="dob" class="form-control" placeholder="dd/mm/yyyy">
+
+			</div>
+			<div class="mb-3">
+				<label for="nino" class="form-label">National Insurance Number</label>
+				<input type="text" name="nino" class="form-control" placeholder="eg. AA112233B">
+
 			</div>
 			<div class="mb-3">
 				<label for="email" class="form-label">Email address</label>
 				<input type="email" name="email" class="form-control" placeholder="jane@doe.com">
+
 			</div>
 			<div class="mb-3">
 				<label for="password" class="form-label">Password</label>
@@ -31,3 +79,6 @@
 	</div>
 </body>
 </html>
+
+
+<!--27:37-->
