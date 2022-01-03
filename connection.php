@@ -3,7 +3,7 @@
 $db_host = "127.0.0.1";
 $db_user = "root";
 $db_password = "Onionweasel2852!";
-$db_name = "training";
+$db_name = "training-system";
 
 try{
     $db = new PDO("mysql:host={$db_host};dbname={$db_name}",$db_user,$db_password);
