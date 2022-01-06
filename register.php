@@ -14,13 +14,21 @@ if(isset($_REQUEST['register_btn'])){
 	echo "</pre>";
 
 
-	$first_name = $_REQUEST['first_name'];
-	$middle_name = $_REQUEST['middle_name'];
-	$surname = $_REQUEST['surname'];
-	$dob = $_REQUEST['dob'];
-	$nino = $_REQUEST['nino'];
-	$email = $_REQUEST['email'];
-	$password = $_REQUEST['password'];
+	$first_name = filter_var($_REQUEST['first_name'],FILTER_SANITIZE_STRING);
+	$middle_name = filter_var($_REQUEST['middle_name'],FILTER_SANITIZE_STRING);
+	$surname = filter_var($_REQUEST['surname'],FILTER_SANITIZE_STRING);
+	$dob = $_REQUEST['dob']; //regex required
+	$nino = $_REQUEST['nino']; //regex required
+	$email = filter_var($_REQUEST['email'],FILTER_SANITIZE_EMAIL);
+	$password = strip_tags($_REQUEST['password']);
+
+	if(empty($first_name)) {
+		$errorMsg[0][] = 'First name required';
+	}
+
+	if(empty($surname)) {
+		$errorMsg[1][] = 'Surname required';
+	}
 }
 
 
