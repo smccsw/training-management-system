@@ -61,6 +61,47 @@ if(isset($_REQUEST['register_btn'])){
 	if(strlen($password) < 8)  {
 		$errorMsg[5][] = 'Must be at least 8 characters and contain uppercase, lowercase, number and special characters';
 	}
+
+	//following checks whether email address already exists within the database and throws an error if it does
+	if(empty($errorMsg)) {
+
+		try {
+			$select_statement = $db->prepare("SELECT firstname,middlename,surname,dob,nino,email,password FROM users WHERE email = :email");
+			$select_statement->execute([':email' => $email]);
+			$row = $select_statement->fetch(PDO::FETCH_ASSOC);
+
+			if(isset($row['email']) == $email){
+				$errorMsg[4][] = "Email address already exists, please choose another or login instead";
+			} else {
+				//below is the SQL entry for new users
+				$hashed_password = password_hash($password, PASSWORD_DEFAULT);
+				$created = new DateTime();
+				$created = $created->format('Y-m-d H:i:s'); //format for MySQL DateTime field
+
+				$insert_statement = $db->prepare("INSERT INTO `users` (`firstname`,`middlename`,`surname`,`dob`,`nino`,`email`,`password`,`created`) 
+													VALUES (':firstname',':middlename',':surname',':dob',':nino',':email',':password',':created'");
+				if(
+					$insert_statement->execute(
+						[
+							':firstname' => $first_name,
+							':middlename' => $middle_name,
+							':surname' => $surname,
+							':dob' => $dob,
+							':nino' => $nino,
+							':email' => $email,
+							':password' => $hashed_password,
+							':created' => $created
+						]
+					)
+				){
+					header("location: index.php?msg=".urlencode('A verification email has been sent to you. Please follow the instructions to verify your email address and account.'));
+				}
+			}
+		}
+		catch(PDOException $e) {
+			$pdoError = $e->getMessage();
+		}
+	}
 }
 
 
